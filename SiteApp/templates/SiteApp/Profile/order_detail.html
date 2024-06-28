@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title_name %} Детали {% endblock title_name %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <h1>Заказ № {{ object.order_number }}</h1>
+            <p>{{ object.client_name }}</p>
+            <p>{{ object.client_phone }}</p>
+            <p>{{ object.delivery_address }}</p>
+        </div>
+
+
+        {% if request.user.is_authenticated and request.user.is_superuser %}
+            <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal">Удалить заказ</a>
+        {% endif %}
+
+        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <form action="{% url 'order_delete' pk=object.order_number %}" method="post">
+                {% csrf_token %}
+                <div class="modal-header">
+                  <h5 class="modal-title" id="confirmDeleteModalLabel">Подтвердите удаление</h5>
+                </div>
+                <div class="modal-body">
+                  <p>Вы уверены, что хотите удалить {{ object }}?</p>
+                </div>
+                <div class="modal-footer">
+                  <input type="submit" value="Удалить" class="btn btn-danger">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        {% if request.user.is_authenticated and request.user.is_superuser %}
+            <a href="{% url 'update_order' object.order_number %}" class="btn btn-outline-primary" style="margin-top: 10px; margin-bottom: 5px;">Изменить заказ</a>
+        {% endif %}
+        <a href="{% url 'orders' %}" class="btn btn-primary">Назад к заказам</a>
+    </div>
+{% endblock %}

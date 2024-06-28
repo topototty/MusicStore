@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title_name %} Подтверждение удаления {% endblock title_name %}
+
+{% block content %}
+    <div class="container">
+        <h1>Подтверждение удаления</h1>
+        <p>Вы уверены, что хотите удалить этот элемент?</p>
+        <form method="post" action="{% url 'product_delete' pk=object.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Удалить</button>
+            <a href="{% url 'product_detail' pk=object.id %}" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

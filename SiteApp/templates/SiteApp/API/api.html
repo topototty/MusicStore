@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title_name %} API {% endblock title_name %}
+
+{% block content %}
+
+    <div class="container">
+        <h1 class="mt-5">API</h1>
+
+        {% if user.is_authenticated %}
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Список API</h5>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <a href="v1/products/" class="list-group-item list-group-item-action">API
+                                        Продуктов</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="v2/tags/" class="list-group-item list-group-item-action">API Тэгов</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="v3/categories/" class="list-group-item list-group-item-action">API
+                                        Категорий</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="v4/orders/" class="list-group-item list-group-item-action">API Заказов</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <a class="btn btn-outline-success" href="{% url 'home' %}" role="button">Вернуться на главную</a>
+                </div>
+            </div>
+
+        {% else %}
+            <p style="font-size: 30px">Извините, для того чтобы попасть на эту страницу, необходимо войти в систему!</p>
+            <a class="btn btn-outline-dark" href="{% url 'login' %}" role="button">Войти</a>
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <a class="btn btn-outline-success" href="{% url 'home' %}" role="button">Вернуться на главную</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

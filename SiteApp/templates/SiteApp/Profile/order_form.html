@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title_name %} Изменение заказа {% endblock title_name %}
+
+{% block content %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <button type="submit" class="btn btn-outline-success" style="margin-top: 10px; margin-bottom: 5px;">Изменить</button>
+    </form>
+
+    <a class="btn btn-success" href="{% url 'catalog' %}" role="button" style="margin-bottom: 4px">Вернуться в каталог</a><br>
+{% endblock %}

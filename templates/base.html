@@ -1,0 +1,72 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<style>
+.sidebar {
+    background-color: #f7f7f7;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 1000px;
+    margin-top: 10px;
+    justify-content: start;
+    margin-left: 110px;
+
+}
+
+.sidebar h3 {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.sidebar p {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.sidebar .read-more {
+    color: #008658;
+    text-decoration: none;
+}
+
+.sidebar .read-more:hover {
+    text-decoration: underline;
+}
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title> {% block title_name %} {% endblock %}</title>
+
+    {% block link_list %}
+        <link rel="stylesheet" href="{% static 'SiteApp/css/bootstrap.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+              integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    {% endblock %}
+
+</head>
+<body>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    {% block header %}
+        {% include 'inc/_header.html' %}
+    {% endblock header %}
+
+    <div class="container ">
+        {% block content %}
+            <h1>Я блок</h1>
+        {% endblock %}
+    </div>
+
+    {% block footer %}
+        {% include 'inc/_footer.html' %}
+    {% endblock footer %}
+
+</body>
+</html>

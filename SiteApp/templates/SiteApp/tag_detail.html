@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title_name %} Детали {% endblock title_name %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <h1>{{ object.name }}</h1>
+            <p>{{ object.description }}</p>
+
+        </div>
+        <a class="btn btn-success" href="{% url 'tags' %}" role="button">Вернуться к тэгам</a>
+    </div>
+
+    <h1 style="margin-top: 20px;">Товары по тэгу <strong>#{{ tag.name }}</strong></h1>
+    <div class="container">
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-3 mb-3 mt-1">
+                    <div class="card h-100 d-flex flex-column">
+                        {% if product.photo %}
+                            <img width="300" height="300" src="{{ product.photo.url }}" alt="{{ product.name }}" class="card-img-top">
+                        {% else %}
+                            <img width="300" height="300" src="{% static 'SiteApp/img/boyKisser.png' %}" alt="{{ product.name }}" class="card-img-top">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text" style="max-height: calc(1.5em * 3); overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">{{ product.description }}</p>
+                            <p class="card-text"><strong>Цена: {{ product.price }}</strong></p>
+                        </div>
+                        <div class="card-footer mt-auto bg-white">
+                            <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">Подробнее</a>
+                            {% if request.user.is_authenticated and request.user.is_superuser %}
+                                <a href="{% url 'product_detail_update' product.id %}" class="btn btn-outline-primary">Изменить</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p>Нет товаров с данным тегом.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <a href="{% url 'catalog' %}" class="btn btn-success">Вернуться в каталог</a>
+{% endblock %}

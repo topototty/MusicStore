@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title_name %} {{ title }} {% endblock title_name %}
+
+{% block content %}
+
+    <div class="welcome-block" style="background-color: #ffffff; padding: 20px; text-align: center;">
+        <h1 class="welcome-text" style=" font-size: 24px; color: #333; margin-bottom: 10px;">Добро пожаловать в каталог
+            товаров для музыкантов!</h1>
+        <p class="description " style="font-size: 16px; color: #666; max-width: 800px; margin: 0 auto">Спасибо за то,
+            что посетили наш музыкальный магазин ! У нас вы можете купить музыкальные инструменты с доставкой по Москве
+            и России, в том числе гитары, различную гарнитуру, виниловые пластинки и другое!</p>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            {% for product in list_products %}
+                <div class="col-md-4 mb-3 mt-1">
+                    <div class="card h-100 d-flex flex-column">
+                        {% if product.photo %}
+                            <img width="300" height="400" src="{{ product.photo.url }}" alt="{{ product.name }}"
+                                 class="card-img-top">
+                        {% else %}
+                            <img width="200" height="200" src="{% static 'SiteApp/img/boyKisser.png' %}"
+                                 alt="{{ product.name }}" class="card-img-top">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text"
+                               style="max-height: calc(1.5em * 3); overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">{{ product.description }}</p>
+                            <p class="card-text"><strong>Цена: {{ product.price }}</strong></p>
+                        </div>
+                        <div class="card-footer mt-auto bg-white">
+                            <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">Подробнее</a>
+
+                            {% if request.user.is_authenticated and request.user.is_superuser %}
+                                <a href="{% url 'product_detail_update' product.id %}" class="btn btn-outline-primary">Изменить</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-3">
+                <h1>Фильтрация</h1>
+                <form method="GET" action="{% url 'catalog' %}" class="mb-4">
+                    <div class="form-group">
+                        <label for="category">Категория:</label>
+                        <select name="category" id="category" class="form-control" style="width: 200px">
+                            <option value="">Выберите категорию</option>
+                            {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tag">Тег:</label>
+                        <select name="tag" id="tag" class="form-control" style="width: 200px">
+                            <option value="">Выберите тег</option>
+                            {% for tag in tags %}
+                                <option value="{{ tag.id }}">{{ tag.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 5px">Применить</button>
+                </form>
+            </div>
+
+            <div class="col-md-6">
+                <div class="text-md-right">
+                    <a class="btn btn-success" href="{% url 'categories' %}" role="button" style="margin-bottom: 5px">Категории</a><br>
+                    <a class="btn btn-success" href="{% url 'tags' %}" role="button" style="margin-bottom: 5px">Тэги</a><br>
+                    <a class="btn btn-success" href="{% url 'callback' %}" role="button" style="margin-bottom: 5px">Обратная
+                        связь</a><br>
+
+                    {% if request.user.is_authenticated and request.user.is_staff or request.user.is_superuser %}
+                        <a class="btn btn-success" href="{% url 'add_product' %}" role="button"
+                           style="margin-bottom: 5px">Добавить товар</a><br>
+                    {% endif %}
+
+                    <a class="btn btn-outline-success mt-3" href="{% url 'home' %}" role="button"
+                       style="margin-bottom: 5px">Вернуться на главную</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if is_paginated %}
+        <div class="container mt-3 mb-3">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=
+
+
+                                    {{ page_obj.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.tag %}&tag={{ request.GET.tag }}{% endif %}"
+                               aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% for p in paginator.page_range %}
+                        {% if p == page_obj.number %}
+                            <li class="page-item active" aria-current="page">
+                                <a class="page-link" href="?page=
+
+
+                                        {{ p }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.tag %}&tag={{ request.GET.tag }}{% endif %}">{{ p }}</a>
+                            </li>
+                        {% elif p == page_obj.number|add:"-2" or p == page_obj.number|add:"-1" or p == page_obj.number or p == page_obj.number|add:"1" or p == page_obj.number|add:"2" or p == 1 or p == paginator.count %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=
+
+
+                                        {{ p }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.tag %}&tag={{ request.GET.tag }}{% endif %}">{{ p }}</a>
+                            </li>
+                        {% elif p == page_obj.number|add:"-3" or p == page_obj.number|add:"3" %}
+                            <li class="page-item">
+                                <span class="page-link">...</span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=
+
+
+                                    {{ page_obj.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.tag %}&tag={{ request.GET.tag }}{% endif %}"
+                               aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    {% endif %}
+
+{% endblock %}

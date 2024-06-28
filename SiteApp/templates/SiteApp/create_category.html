@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <form {# action="{% url 'index.html' %}" #} method = post>
+    {% csrf_token %}
+        {{ form.as_div }}
+        <button type="submit" class="btn btn-outline-primary" style="margin-top: 10px;">Принять</button>
+    </form>
+
+{% endblock %}

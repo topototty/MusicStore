@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title_name %} Корзина {% endblock title_name %}
+
+{% block content %}
+
+    <h1 style="margin-top: 47px">Корзина пуста!</h1>
+    <a class="btn btn-outline-primary" href="{% url 'home' %}" role="button">Вернуться на главную</a>
+{% endblock %}

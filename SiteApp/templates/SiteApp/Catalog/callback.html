@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title_name %} Обратная связь {% endblock title_name %}
+
+{% block content %}
+
+    <h1 style="margin-top: 50px">Обратная связь</h1>
+
+    <p>Работаем ежедневно с 9:00 до 21:00 по московскому времени. Свяжитесь с нами любым удобным способом!</p><br>
+
+    <p>+7-990-475-80-50<br>products@gmail.com</p>
+
+    <a class="btn btn-outline-success" href="{% url 'catalog' %}" role="button">Вернуться в каталог</a>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title_name %} Изменение {% endblock title_name %}
+
+{% block content %}
+
+    <h1 style="margin-top: 50px">Изменение {{ id }}</h1>
+
+    <a class="btn btn-outline-success" href="{% url 'api' %}" role="button">Вернуться в API</a>
+
+{% endblock %}

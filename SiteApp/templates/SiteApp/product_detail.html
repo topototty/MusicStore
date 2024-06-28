@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title_name %} Детали {% endblock title_name %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            {% if object.photo %}
+                {% if object.category.name == 'Электрогитары'%}
+                    <div class="col-md-4">
+                        <img src="{{ object.photo.url }}" alt="{{ object.name }} Photo" width="200" height="500">
+                    </div>
+                    <div class="col-md-7">
+                {% else %}
+                    <div class="col-md-5">
+                        <img src="{{ object.photo.url }}" alt="{{ object.name }} Photo" width="500" height="500">
+                    </div>
+                <div class="col-md-7">
+                {% endif %}
+            {% else %}
+                <div class="col-md-12">
+            {% endif %}
+                <h1>{{ object.name }}</h1>
+                <p>{{ object.description }}</p>
+                <h2>{{ object.price }}</h2>
+
+                <h3>Теги:</h3>
+                <ul class="list-group mb-3">
+                    {% for tag in object.tags.all %}
+                        <li class="list-group-item">
+                            <a href="{% url 'products_by_tag' tag.id %}">{{ tag.name }}</a>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">Тэги не найдены</li>
+                    {% endfor %}
+                </ul>
+
+                {% if request.user.is_authenticated and request.user.is_superuser %}
+                    <a href="{% url 'product_delete' product.id %}" class="btn btn-danger">Удалить продукт</a>
+                {% endif %}
+
+                <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <form action="{% url 'product_delete' pk=object.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="confirmDeleteModalLabel">Подтвердите удаление</h5>
+                        </div>
+                        <div class="modal-body">
+                          <p>Вы уверены, что хотите удалить {{ object }}?</p>
+                        </div>
+                        <div class="modal-footer">
+                          <input type="submit" value="Удалить" class="btn btn-danger">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+
+                <a class="btn btn-success" href="{% url 'catalog' %}" role="button">Вернуться в каталог</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

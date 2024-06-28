@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title_name %} Профиль {% endblock title_name %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <h1 style="margin-top: 50px">Добро пожаловать <strong>{{ user.username }}!</strong></h1>
+        <p>Ваш профиль</p>
+
+        <a class="btn btn-success" href="{% url 'settings' %}" role="button" style="margin-bottom: 5px">Настройки</a>
+        <br>
+        <a class="btn btn-success" href="{% url 'orders' %}" role="button" style="margin-bottom: 5px">Заказы</a><br>
+        <a class="btn btn-success" href="{% url 'favourites' %}" role="button" style="margin-bottom: 5px">Избранное</a>
+        <a class="btn btn-success" href="{% url 'admin:index' %}" role="button" style="margin-bottom: 5px">Админка</a>
+        <br>
+
+        <a class="btn btn-outline-success" href="{% url 'home' %}" role="button">Вернуться на главную</a>
+
+    {% else %}
+        <p style="font-size: 30px">Войдите в систему!</p>
+        <a class="btn btn-outline-dark" href="{% url 'login' %}" role="button">Войти</a>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <a class="btn btn-outline-success" href="{% url 'home' %}" role="button">Вернуться на главную</a>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

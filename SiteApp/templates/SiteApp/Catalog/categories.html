@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title_name %} Категории {% endblock title_name %}
+
+{% block content %}
+
+    <h1 style="margin-top: 50px">Категории</h1>
+
+    {% for category in list_categories %}
+        <div class="category" style="background-color: #f9f9f9; padding: 20px; margin-bottom: 10px; border-radius: 5px;">
+            <h2 style="font-size: 24px; color: #333;">{{ category.name }}</h2>
+            <a href="{% url 'category_detail' category.id%}" class="btn btn-primary">Подробнее</a>
+            <a href="{% url 'products_by_category' category.id%}" class="btn btn-outline-primary">Посмотреть товары</a>
+        </div>
+    {% endfor %}
+
+    {% if request.user.is_authenticated and request.user.is_staff or request.user.is_superuser %}
+        <a class="btn btn-success" href="{% url 'add_category' %}" role="button" style="margin-top: 20px">Добавить категорию<br></a>
+    {% endif %}
+
+    <a class="btn btn-outline-success" href="{% url 'catalog' %}" role="button" style="margin-top: 20px">Вернуться в каталог</a>
+
+{% endblock %}
